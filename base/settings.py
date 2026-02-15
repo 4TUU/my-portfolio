@@ -125,3 +125,5 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
+# Add this to prevent WhiteNoise from crashing on missing background images or font refs
+WHITENOISE_MANIFEST_STRICT = False

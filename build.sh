@@ -5,10 +5,12 @@ set -o errexit
 # Install Python dependencies
 pip install -r requirements.txt
 
-# Build Tailwind (Assuming your input is in 'static/src/input.css')
-# This requires Node to be available on the build instance
+# Install Node dependencies (for Tailwind)
 npm install
-npx tailwindcss -i ./static/src/input.css -o ./static/src/output.css --minify
+
+# Build Tailwind correctly
+# Note: Ensure the paths match your folder structure exactly
+npx @tailwindcss/cli -i ./static/src/input.css -o ./static/src/output.css --minify
 
 # Collect Static Files
 python manage.py collectstatic --no-input
