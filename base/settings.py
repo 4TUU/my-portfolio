@@ -123,4 +123,9 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # Add this to prevent WhiteNoise from crashing on missing background images or font refs
 WHITENOISE_MANIFEST_STRICT = False
 # In settings.py
-ALLOWED_HOSTS = ['my-nerd-site.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = [
+    'my-nerd-portfolio-production.up.railway.app', 
+    'localhost', 
+    '127.0.0.1',
+    '.up.railway.app'  # This wildcard allows any Railway subdomain
+]
