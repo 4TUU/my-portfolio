@@ -2,11 +2,11 @@
 set -o errexit
 
 pip install -r requirements.txt
-
-# Use the Node-based compiler which is more stable on Render
 npm install
-npx @tailwindcss/cli -i ./static/src/input.css -o ./static/src/output.css --minify
 
-# The --no-input is key for automation
-python manage.py collectstatic --no-input
+# Build the CSS
+npx @tailwindcss/cli -i ./static/src/input.css -o ./static/css/output.css --minify
+
+# Tell collectstatic to IGNORE the 'src' folder entirely
+python manage.py collectstatic --no-input --ignore src
 python manage.py migrate
