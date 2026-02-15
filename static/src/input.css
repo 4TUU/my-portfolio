@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-orange: #fb923c; /* orange-400 */
+  --color-brand-rose: #fb7185;   /* rose-400 */
+}
+
+@layer utilities {
+  .text-gradient-fix {
+    background: linear-gradient(to right, #fb923c, #fb7185);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}

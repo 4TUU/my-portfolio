@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: my-nerd-portfolio
+    runtime: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --noinput"
+    startCommand: "gunicorn base.wsgi:application" # Replace 'base' with your folder name
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.0
+      - key: DEBUG
+        value: "False"
+      - key: SECRET_KEY
+        generateValue: true
