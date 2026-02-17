@@ -18,42 +18,70 @@
         }
         .custom-scroll::-webkit-scrollbar { width: 4px; }
         .custom-scroll::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
 
 <body class="bg-slate-50 font-sans text-slate-900">
 
+<div class="lg:hidden bg-white border-b border-slate-200 p-4 flex justify-between items-center sticky top-0 z-40">
+    <div class="text-xl font-black text-indigo-600 tracking-tighter italic">MedixPro</div>
+    <button onclick="toggleSidebar()" class="p-2 text-slate-500 hover:bg-slate-50 rounded-lg">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+    </button>
+</div>
+
+<div id="sidebar-backdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity"></div>
+
 <div class="flex h-screen overflow-hidden">
 
-    <aside class="w-72 bg-white border-r border-slate-200 hidden lg:flex flex-col">
-        <div class="p-8 text-2xl font-black text-indigo-600 tracking-tighter italic">
-            MedixPro <span class="text-slate-400 not-italic font-light">| Clinic</span>
+    <aside id="mobile-sidebar" class="fixed inset-y-0 left-0 z-50 w-72 bg-white border-r border-slate-200 -translate-x-full lg:translate-x-0 lg:static lg:inset-0 lg:flex flex-col transition-transform duration-300">
+        <div class="p-8 text-2xl font-black text-indigo-600 tracking-tighter italic flex justify-between items-center">
+            <span>MedixPro <span class="text-slate-400 not-italic font-light">| Clinic</span></span>
+            <button onclick="toggleSidebar()" class="lg:hidden text-slate-400 hover:text-slate-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
         </div>
-        <nav class="flex-1 px-6 space-y-2">
-            <a href=".." class="flex items-center gap-3 p-3 rounded-xl text-slate-500 hover:bg-slate-50 hover:text-indigo-600 transition-all cursor-pointer">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-                Dashboard
+
+        <nav class="flex-1 px-6 space-y-2 overflow-y-auto no-scrollbar">
+            <a href=".." class="flex items-center gap-3 p-3 rounded-xl text-slate-500 hover:bg-slate-50 hover:text-indigo-600 transition-all group">
+                <svg class="w-5 h-5 opacity-70 group-hover:opacity-100" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                <span class="font-medium">Dashboard</span>
             </a>
-            <a href="../patients"class="flex items-center gap-3 p-3 rounded-xl text-slate-500 hover:bg-slate-50 hover:text-indigo-600 transition-all cursor-pointer">Patients</a>
-            <a href="../doctors" class="flex items-center gap-3 p-3 rounded-xl text-slate-500 hover:bg-slate-50 hover:text-indigo-600 transition-all cursor-pointer">Doctors</a>
             
-            <a href="#" class="flex items-center gap-3 p-3 rounded-xl bg-indigo-50 text-indigo-600 font-bold transition-all shadow-sm shadow-indigo-100">
+            <a href="../patients" class="flex items-center gap-3 p-3 rounded-xl text-slate-500 hover:bg-slate-50 hover:text-indigo-600 transition-all group">
+                <span class="font-medium">Patients</span>
+            </a>
+
+            <a href="../doctors" class="flex items-center gap-3 p-3 rounded-xl text-slate-500 hover:bg-slate-50 hover:text-indigo-600 transition-all group">
+                <span class="font-medium">Doctors</span>
+            </a>
+            
+            <a href="#" class="flex items-center gap-3 p-3 rounded-xl bg-indigo-50 text-indigo-600 shadow-sm shadow-indigo-100 group">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                Appointments
+                <span class="font-black">Appointments</span>
             </a>
             
-            <a href="../finances" class="flex items-center gap-3 p-3 rounded-xl text-slate-500 hover:bg-slate-50 hover:text-indigo-600 transition-all cursor-pointer">Finances</a>
+            <a href="../finances" class="flex items-center gap-3 p-3 rounded-xl text-slate-500 hover:bg-slate-50 hover:text-indigo-600 transition-all group">
+                <span class="font-medium">Finances</span>
+            </a>
         </nav>
-        <div class="p-6">
-            <div class="bg-amber-50 p-4 rounded-2xl border border-amber-100">
-                <p class="text-[10px] text-amber-600 uppercase font-black tracking-widest">Alert</p>
-                <p class="text-xs font-bold text-amber-800 mt-1">3 Overdue Appointments</p>
+
+        <div class="p-6 border-t border-slate-50">
+            <div class="bg-rose-50 p-4 rounded-2xl border border-rose-100 relative overflow-hidden group">
+                <div class="relative z-10">
+                    <p class="text-[10px] text-rose-500 uppercase font-black tracking-widest flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-rose-500 animate-ping"></span>
+                        Action Required
+                    </p>
+                    <p class="text-xs font-bold text-rose-800 mt-1">3 Overdue Bookings</p>
+                </div>
+                <svg class="absolute -right-2 -bottom-2 w-12 h-12 text-rose-100 transform group-hover:rotate-12 transition-transform" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
             </div>
         </div>
     </aside>
 
     <div class="flex-1 flex flex-col overflow-y-auto">
-
         <header class="bg-white/80 backdrop-blur-md sticky top-0 z-10 px-10 py-5 flex justify-between items-center border-b border-slate-100">
             <div>
                 <h1 class="text-2xl font-extrabold text-slate-800 tracking-tight">Schedule</h1>
@@ -67,21 +95,15 @@
         </header>
 
         <main class="p-10 space-y-10">
-
             <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
-                
                 <div class="xl:col-span-2 space-y-6 reveal [animation-delay:0.1s]">
                     <div class="bg-white rounded-[2.5rem] border border-slate-200 shadow-sm overflow-hidden">
                         <div class="p-8 border-b border-slate-50 flex justify-between items-center">
                             <h2 class="text-xl font-black text-slate-800">Timeline Today</h2>
-                            <div class="flex gap-2">
-                                <span class="px-3 py-1 bg-emerald-50 text-emerald-600 text-[10px] font-black rounded-lg uppercase">8 Sessions Done</span>
-                            </div>
+                            <span class="px-3 py-1 bg-emerald-50 text-emerald-600 text-[10px] font-black rounded-lg uppercase">8 Sessions Done</span>
                         </div>
-                        
                         <div class="p-8 space-y-8 relative">
                             <div class="absolute left-[2.75rem] top-8 bottom-8 w-px bg-slate-100"></div>
-
                             <div class="relative flex gap-8 items-start group">
                                 <div class="w-12 text-right">
                                     <p class="text-xs font-black text-indigo-600">09:00</p>
@@ -99,57 +121,61 @@
                                     <span class="px-3 py-1 bg-indigo-600 text-white text-[10px] font-bold rounded-lg animate-pulse">ONGOING</span>
                                 </div>
                             </div>
+                            <div class="relative flex gap-8 items-start group">
+    <div class="w-12 text-right">
+        <p class="text-xs font-black text-slate-400">11:15</p>
+        <p class="text-[10px] text-slate-400 font-bold uppercase">AM</p>
+    </div>
+    <div class="z-10 w-4 h-4 rounded-full bg-white border-4 border-rose-500 mt-1"></div>
+    <div class="flex-1 bg-white p-4 rounded-2xl border border-rose-100 flex justify-between items-center hover:shadow-md transition-all">
+        <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-full bg-rose-50 flex items-center justify-center font-bold text-rose-600 shadow-sm">RH</div>
+            <div>
+                <p class="text-sm font-black text-slate-800">Robert Hill</p>
+                <p class="text-xs text-rose-500 font-bold italic">Cardiology Consultation</p>
+            </div>
+        </div>
+        <span class="px-3 py-1 bg-rose-500 text-white text-[10px] font-black rounded-lg">URGENT</span>
+    </div>
+</div>
 
-                            <div class="relative flex gap-8 items-start">
-                                <div class="w-12 text-right">
-                                    <p class="text-xs font-black text-slate-400">10:30</p>
-                                    <p class="text-[10px] text-slate-400 font-bold uppercase">AM</p>
-                                </div>
-                                <div class="z-10 w-4 h-4 rounded-full bg-slate-200 border-4 border-white mt-1"></div>
-                                <div class="flex-1 bg-white p-4 rounded-2xl border border-slate-100 flex justify-between items-center hover:border-indigo-200 transition-all cursor-pointer">
-                                    <div class="flex items-center gap-4">
-                                        <div class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center font-bold text-slate-400">AM</div>
-                                        <div>
-                                            <p class="text-sm font-black text-slate-800">Anna Mueller</p>
-                                            <p class="text-xs text-slate-400 font-bold">Dental Cleaning</p>
-                                        </div>
-                                    </div>
-                                    <p class="text-xs text-slate-400 font-bold italic">Next Up</p>
-                                </div>
-                            </div>
+<div class="relative flex gap-8 items-start opacity-60">
+    <div class="w-12 text-right">
+        <p class="text-xs font-black text-slate-300">01:30</p>
+        <p class="text-[10px] text-slate-300 font-bold uppercase">PM</p>
+    </div>
+    <div class="z-10 w-4 h-4 rounded-full bg-slate-100 border-4 border-white mt-1"></div>
+    <div class="flex-1 border-t border-dashed border-slate-200 mt-3"></div>
+</div>
 
-                             <div class="relative flex gap-8 items-start">
-                                <div class="w-12 text-right">
-                                    <p class="text-xs font-black text-slate-400">11:15</p>
-                                    <p class="text-[10px] text-slate-400 font-bold uppercase">AM</p>
-                                </div>
-                                <div class="z-10 w-4 h-4 rounded-full bg-slate-200 border-4 border-white mt-1"></div>
-                                <div class="flex-1 bg-white p-4 rounded-2xl border border-slate-100 flex justify-between items-center">
-                                    <div class="flex items-center gap-4">
-                                        <div class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center font-bold text-slate-400">RH</div>
-                                        <div>
-                                            <p class="text-sm font-black text-slate-800">Robert Hill</p>
-                                            <p class="text-xs text-slate-400 font-bold">Cardiology Consultation</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex gap-2">
-                                        <span class="w-2 h-2 rounded-full bg-rose-500" title="High Priority"></span>
-                                    </div>
-                                </div>
-                            </div>
+<div class="relative flex gap-8 items-start group">
+    <div class="w-12 text-right">
+        <p class="text-xs font-black text-slate-400">02:00</p>
+        <p class="text-[10px] text-slate-400 font-bold uppercase">PM</p>
+    </div>
+    <div class="z-10 w-4 h-4 rounded-full bg-white border-4 border-slate-200 mt-1"></div>
+    <div class="flex-1 bg-white p-4 rounded-2xl border border-slate-100 flex justify-between items-center hover:border-indigo-200 transition-all cursor-pointer">
+        <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center font-bold text-slate-600">EM</div>
+            <div>
+                <p class="text-sm font-black text-slate-800">Emily Moore</p>
+                <p class="text-xs text-slate-400 font-bold">Orthopedic Follow-up</p>
+            </div>
+        </div>
+        <button class="text-indigo-600 hover:bg-indigo-50 p-2 rounded-lg transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+        </button>
+    </div>
+</div>
                         </div>
                     </div>
                 </div>
 
                 <div class="space-y-8 reveal [animation-delay:0.3s]">
-                    
                     <div class="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm h-80 flex flex-col">
                         <h2 class="text-lg font-black text-slate-800 mb-4">Weekly Load</h2>
-                        <div class="flex-1">
-                            <canvas id="loadChart"></canvas>
-                        </div>
+                        <div class="flex-1"><canvas id="loadChart"></canvas></div>
                     </div>
-
                     <div class="bg-slate-900 rounded-[2.5rem] p-8 text-white">
                         <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-6">Pending Approval</h3>
                         <div class="space-y-4">
@@ -157,80 +183,24 @@
                                 <div class="text-sm font-bold">Online Booking #842</div>
                                 <button class="text-[10px] bg-emerald-500 px-2 py-1 rounded-md text-white font-black">APPROVE</button>
                             </div>
-                            <div class="flex items-center justify-between p-3 bg-white/5 rounded-xl border border-white/10">
-                                <div class="text-sm font-bold">Online Booking #845</div>
-                                <button class="text-[10px] bg-emerald-500 px-2 py-1 rounded-md text-white font-black">APPROVE</button>
-                            </div>
                         </div>
                     </div>
-
                 </div>
             </div>
-
-            <div class="bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-xl shadow-slate-200/50 reveal [animation-delay:0.5s]">
-                <div class="flex items-center justify-between mb-8">
-                    <h2 class="text-2xl font-black text-slate-800">Upcoming Registry</h2>
-                    <div class="flex bg-slate-100 p-1 rounded-xl">
-                        <button class="px-4 py-1.5 text-xs font-bold bg-white text-slate-800 rounded-lg shadow-sm">Active</button>
-                        <button class="px-4 py-1.5 text-xs font-bold text-slate-500 hover:text-indigo-600">Cancelled</button>
-                    </div>
-                </div>
-                
-                <table class="w-full text-left">
-                    <thead class="text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-50">
-                        <tr>
-                            <th class="pb-4">Patient</th>
-                            <th class="pb-4">Assigned Doctor</th>
-                            <th class="pb-4">Time/Date</th>
-                            <th class="pb-4">Type</th>
-                            <th class="pb-4 text-right">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-50">
-                        <tr class="hover:bg-slate-50/50 transition-all">
-                            <td class="py-5 font-bold text-slate-700">Sarah Jenkins</td>
-                            <td class="py-5 flex items-center gap-2">
-                                <div class="w-6 h-6 rounded-full bg-indigo-100 flex items-center justify-center text-[8px] font-black text-indigo-600">SW</div>
-                                <span class="text-sm font-medium">Dr. Sarah Wilson</span>
-                            </td>
-                            <td class="py-5">
-                                <div class="text-sm font-bold">Feb 18, 2026</div>
-                                <div class="text-[10px] text-slate-400">09:15 AM</div>
-                            </td>
-                            <td class="py-5">
-                                <span class="px-3 py-1 bg-indigo-50 text-indigo-600 text-[10px] font-black rounded-lg uppercase">Consultation</span>
-                            </td>
-                            <td class="py-5 text-right">
-                                <button class="text-slate-400 hover:text-indigo-600 font-black text-lg">···</button>
-                            </td>
-                        </tr>
-                        <tr class="hover:bg-slate-50/50 transition-all">
-                            <td class="py-5 font-bold text-slate-700">Mark Thompson</td>
-                            <td class="py-5 flex items-center gap-2">
-                                <div class="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center text-[8px] font-black text-emerald-600">JC</div>
-                                <span class="text-sm font-medium">Dr. James Carter</span>
-                            </td>
-                            <td class="py-5">
-                                <div class="text-sm font-bold">Feb 18, 2026</div>
-                                <div class="text-[10px] text-slate-400">10:45 AM</div>
-                            </td>
-                            <td class="py-5">
-                                <span class="px-3 py-1 bg-amber-50 text-amber-600 text-[10px] font-black rounded-lg uppercase">Lab Test</span>
-                            </td>
-                            <td class="py-5 text-right">
-                                <button class="text-slate-400 hover:text-indigo-600 font-black text-lg">···</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
         </main>
     </div>
 </div>
 
 <script>
-/* Load Chart - Vertical Bar */
+/* Sidebar Toggle Logic */
+function toggleSidebar() {
+    const sidebar = document.getElementById('mobile-sidebar');
+    const backdrop = document.getElementById('sidebar-backdrop');
+    sidebar.classList.toggle('-translate-x-full');
+    backdrop.classList.toggle('hidden');
+}
+
+/* Load Chart */
 const ctx = document.getElementById('loadChart').getContext('2d');
 new Chart(ctx, {
     type: 'bar',
@@ -249,10 +219,7 @@ new Chart(ctx, {
         plugins: { legend: { display: false } },
         scales: {
             y: { display: false },
-            x: { 
-                grid: { display: false },
-                ticks: { font: { size: 10, weight: '700' }, color: '#94a3b8' }
-            }
+            x: { grid: { display: false }, ticks: { font: { size: 10, weight: '700' }, color: '#94a3b8' } }
         }
     }
 });

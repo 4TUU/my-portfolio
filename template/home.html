@@ -1,515 +1,251 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>MedixPro | Intelligence Dashboard</title>
-
     <script src="https://cdn.tailwindcss.com"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-
-
     <style>
-
-        /* Smooth Entrance Animation */
-
         .reveal {
-
             opacity: 0;
-
             transform: translateY(20px);
-
             animation: reveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-
         }
-
         @keyframes reveal {
-
             to { opacity: 1; transform: translateY(0); }
-
         }
-
     </style>
-
 </head>
-
-
 
 <body class="bg-slate-50 font-sans text-slate-900">
 
-
+<div class="lg:hidden bg-white border-b border-slate-200 p-4 flex justify-between items-center sticky top-0 z-50">
+    <div class="text-xl font-black text-indigo-600 tracking-tighter italic">MedixPro</div>
+    <button onclick="toggleSidebar()" class="p-2 text-slate-600 hover:bg-slate-50 rounded-lg transition-colors">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+    </button>
+</div>
 
 <div class="flex h-screen overflow-hidden">
 
-
-
-    <aside class="w-72 bg-white border-r border-slate-200 hidden lg:flex flex-col">
-
-        <div class="p-8 text-2xl font-black text-indigo-600 tracking-tighter italic">
-
-            MedixPro <span class="text-slate-400 not-italic font-light">| Clinic</span>
-
+    <div id="sidebarBackdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 hidden lg:hidden"></div>
+    
+    <aside id="mainSidebar" class="fixed inset-y-0 left-0 z-50 w-72 bg-white border-r border-slate-200 transform -translate-x-full transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0 lg:flex flex-col">
+        <div class="p-8 text-2xl font-black text-indigo-600 tracking-tighter italic flex justify-between items-center">
+            <span>MedixPro <span class="text-slate-400 not-italic font-light">| Clinic</span></span>
+            <button onclick="toggleSidebar()" class="lg:hidden text-slate-400 hover:text-slate-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
         </div>
-
+        
         <nav class="flex-1 px-6 space-y-2">
-
             <a href="#" class="flex items-center gap-3 p-3 rounded-xl bg-indigo-50 text-indigo-600 font-bold transition-all">
-
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-
                 Dashboard
-
             </a>
-
-            <a href="/patients/"class="flex items-center gap-3 p-3 rounded-xl text-slate-500 hover:bg-slate-50 hover:text-indigo-600 transition-all cursor-pointer">Patients</a>
-
-            <a href="/doctors/" class="flex items-center gap-3 p-3 rounded-xl text-slate-500 hover:bg-slate-50 hover:text-indigo-600 transition-all cursor-pointer">Doctors</a>
-
-            <a href="/appointments/" class="flex items-center gap-3 p-3 rounded-xl text-slate-500 hover:bg-slate-50 hover:text-indigo-600 transition-all cursor-pointer">Appointments</a>
-
-            <a href="/finances/" class="flex items-center gap-3 p-3 rounded-xl text-slate-500 hover:bg-slate-50 hover:text-indigo-600 transition-all cursor-pointer">Finances</a>
-
+            <a href="patients" class="flex items-center gap-3 p-3 rounded-xl text-slate-500 hover:bg-slate-50 hover:text-indigo-600 transition-all cursor-pointer">Patients</a>
+            <a href="doctors" class="flex items-center gap-3 p-3 rounded-xl text-slate-500 hover:bg-slate-50 hover:text-indigo-600 transition-all cursor-pointer">Doctors</a>
+            <a href="appointments" class="flex items-center gap-3 p-3 rounded-xl text-slate-500 hover:bg-slate-50 hover:text-indigo-600 transition-all cursor-pointer">Appointments</a>
+            <a href="finances" class="flex items-center gap-3 p-3 rounded-xl text-slate-500 hover:bg-slate-50 hover:text-indigo-600 transition-all cursor-pointer">Finances</a>
         </nav>
 
         <div class="p-6 border-t border-slate-100">
-
             <div class="bg-indigo-600 p-4 rounded-2xl text-white text-center shadow-lg shadow-indigo-200">
-
                 <p class="text-xs opacity-80 uppercase font-bold tracking-widest">Storage</p>
-
                 <p class="text-sm font-bold mt-1">85% Capacity</p>
-
                 <div class="w-full bg-white/20 h-1.5 rounded-full mt-2">
-
                     <div class="bg-white w-[85%] h-full rounded-full"></div>
-
                 </div>
-
             </div>
-
         </div>
-
     </aside>
 
-
-
     <div class="flex-1 flex flex-col overflow-y-auto">
-
-
-
-        <header class="bg-white/80 backdrop-blur-md sticky top-0 z-10 px-10 py-5 flex justify-between items-center border-b border-slate-100">
-
-            <h1 class="text-2xl font-extrabold text-slate-800 tracking-tight">Overview Dashboard</h1>
-
-            <div class="flex items-center gap-6">
-
-                <div class="relative">
-
+        <header class="bg-white/80 backdrop-blur-md sticky top-0 z-10 px-6 lg:px-10 py-5 flex justify-between items-center border-b border-slate-100">
+            <h1 class="text-xl lg:text-2xl font-extrabold text-slate-800 tracking-tight">Overview Dashboard</h1>
+            <div class="flex items-center gap-4 lg:gap-6">
+                <div class="hidden md:relative md:block">
                     <input type="text" placeholder="Search data..." class="pl-10 pr-4 py-2 bg-slate-50 border-none rounded-xl focus:ring-2 focus:ring-indigo-500 w-64 text-sm transition-all outline-none">
-
                     <svg class="w-4 h-4 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-
                 </div>
-
                 <img src="https://i.pravatar.cc/40?img=11" class="w-10 h-10 rounded-xl ring-2 ring-indigo-50 shadow-lg cursor-pointer">
-
             </div>
-
         </header>
 
-
-
-        <main class="p-10 space-y-12">
-
-
-
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
-
+        <main class="p-6 lg:p-10 space-y-12">
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8">
                 <div class="group relative reveal [animation-delay:0.1s]">
-
-                    <div class="absolute inset-0 bg-indigo-500/10 rounded-[2rem] blur-xl opacity-0 group-hover:opacity-100 transition duration-500"></div>
-
                     <div class="relative bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm group-hover:shadow-2xl group-hover:-translate-y-2 transition-all duration-300">
-
                         <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">Total Patients</p>
-
                         <h2 class="mt-4 text-4xl font-black text-slate-800 counter" data-target="2845">0</h2>
-
                         <div class="mt-4 flex items-center text-emerald-500 text-sm font-bold">+8.4%</div>
-
                     </div>
-
                 </div>
-
-
-
                 <div class="group relative reveal [animation-delay:0.2s]">
-
-                    <div class="absolute inset-0 bg-emerald-500/10 rounded-[2rem] blur-xl opacity-0 group-hover:opacity-100 transition duration-500"></div>
-
                     <div class="relative bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm group-hover:shadow-2xl group-hover:-translate-y-2 transition-all duration-300">
-
                         <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">Active Doctors</p>
-
                         <h2 class="mt-4 text-4xl font-black text-slate-800 counter" data-target="245">0</h2>
-
                         <div class="mt-4 flex items-center text-emerald-500 text-sm font-bold">+2.1%</div>
-
                     </div>
-
                 </div>
-
-
-
                 <div class="group relative reveal [animation-delay:0.3s]">
-
-                    <div class="absolute inset-0 bg-purple-500/10 rounded-[2rem] blur-xl opacity-0 group-hover:opacity-100 transition duration-500"></div>
-
                     <div class="relative bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm group-hover:shadow-2xl group-hover:-translate-y-2 transition-all duration-300">
-
                         <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">Total Income</p>
-
                         <h2 class="mt-4 text-4xl font-black text-slate-800">$<span class="counter" data-target="84540">0</span></h2>
-
                         <div class="mt-4 flex items-center text-purple-500 text-sm font-bold">+12.5%</div>
-
                     </div>
-
                 </div>
-
-
-
                 <div class="group relative reveal [animation-delay:0.4s]">
-
-                    <div class="absolute inset-0 bg-rose-500/10 rounded-[2rem] blur-xl opacity-0 group-hover:opacity-100 transition duration-500"></div>
-
                     <div class="relative bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm group-hover:shadow-2xl group-hover:-translate-y-2 transition-all duration-300">
-
                         <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">Appointments</p>
-
                         <h2 class="mt-4 text-4xl font-black text-slate-800 counter" data-target="1240">0</h2>
-
                         <div class="mt-4 flex items-center text-rose-500 text-sm font-bold">-3.2%</div>
-
                     </div>
-
                 </div>
-
             </div>
 
-
-
-            <div class="bg-white p-10 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100 reveal [animation-delay:0.5s]">
-
-                <div class="flex items-center justify-between mb-8">
-
+            <div class="bg-white p-6 lg:p-10 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100 reveal [animation-delay:0.5s]">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
                     <div>
-
                         <h2 class="text-2xl font-black text-slate-800">Income Intelligence</h2>
-
                         <p class="text-slate-400 font-medium italic">Hover the line to view exact values</p>
-
                     </div>
-
-                    <div class="flex gap-2">
-
-                        <button class="px-4 py-2 text-xs font-bold bg-indigo-50 text-indigo-600 rounded-lg">MONTHLY VIEW</button>
-
-                    </div>
-
+                    <button class="px-4 py-2 text-xs font-bold bg-indigo-50 text-indigo-600 rounded-lg self-start">MONTHLY VIEW</button>
                 </div>
-
-                <div class="h-96 relative">
-
+                <div class="h-64 lg:h-96 relative">
                     <canvas id="incomeChart"></canvas>
-
                 </div>
-
             </div>
-
-
-
+            
             <div class="grid grid-cols-1 xl:grid-cols-2 gap-10">
-
                 <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-200 reveal [animation-delay:0.6s]">
-
                     <h2 class="text-xl font-bold text-slate-800 mb-6">Recent Consultations</h2>
-
-                    <table class="w-full text-left">
-
-                        <thead class="text-xs font-black text-slate-400 uppercase tracking-widest border-b border-slate-50">
-
-                            <tr>
-
-                                <th class="pb-4">Patient</th>
-
-                                <th class="pb-4">Date</th>
-
-                                <th class="pb-4 text-right">Status</th>
-
-                            </tr>
-
-                        </thead>
-
-                        <tbody class="divide-y divide-slate-50">
-
-                            <tr class="hover:bg-slate-50 transition-all">
-
-                                <td class="py-4 font-bold text-slate-700">John Doe</td>
-
-                                <td class="text-slate-500 text-sm">Feb 14, 2026</td>
-
-                                <td class="text-right"><span class="px-4 py-1.5 text-xs font-bold bg-emerald-100 text-emerald-600 rounded-full">Completed</span></td>
-
-                            </tr>
-
-                            <tr class="hover:bg-slate-50 transition-all">
-
-                                <td class="py-4 font-bold text-slate-700">Emma Stone</td>
-
-                                <td class="text-slate-500 text-sm">Feb 15, 2026</td>
-
-                                <td class="text-right"><span class="px-4 py-1.5 text-xs font-bold bg-amber-100 text-amber-600 rounded-full">In Therapy</span></td>
-
-                            </tr>
-
-                        </tbody>
-
-                    </table>
-
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left min-w-[400px]">
+                            <thead class="text-xs font-black text-slate-400 uppercase tracking-widest border-b border-slate-50">
+                                <tr>
+                                    <th class="pb-4">Patient</th>
+                                    <th class="pb-4">Date</th>
+                                    <th class="pb-4 text-right">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-50">
+                                <tr class="hover:bg-slate-50 transition-all">
+                                    <td class="py-4 font-bold text-slate-700">John Doe</td>
+                                    <td class="text-slate-500 text-sm">Feb 14, 2026</td>
+                                    <td class="text-right"><span class="px-4 py-1.5 text-xs font-bold bg-emerald-100 text-emerald-600 rounded-full">Completed</span></td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 transition-all">
+                                    <td class="py-4 font-bold text-slate-700">Emma Stone</td>
+                                    <td class="text-slate-500 text-sm">Feb 15, 2026</td>
+                                    <td class="text-right"><span class="px-4 py-1.5 text-xs font-bold bg-amber-100 text-amber-600 rounded-full">In Therapy</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-
-
 
                 <div class="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-200 reveal [animation-delay:0.7s]">
-
                     <h2 class="text-xl font-bold text-slate-800 mb-6">Top Performing Doctors</h2>
-
                     <div class="space-y-6">
-
                         <div class="flex justify-between items-center group">
-
                             <div class="flex items-center gap-4">
-
                                 <div class="w-12 h-12 rounded-2xl bg-indigo-50 flex items-center justify-center font-black text-indigo-600">SW</div>
-
                                 <div>
-
                                     <p class="font-bold text-slate-800">Dr. Sarah Wilson</p>
-
                                     <p class="text-xs text-slate-400 font-bold uppercase">Cardiology</p>
-
                                 </div>
-
                             </div>
-
                             <span class="text-emerald-600 font-black text-lg">$12,400</span>
-
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </main>
-
     </div>
-
 </div>
 
-
-
 <script>
+/* 3. MOBILE SIDEBAR TOGGLE FUNCTION */
+function toggleSidebar() {
+    const sidebar = document.getElementById('mainSidebar');
+    const backdrop = document.getElementById('sidebarBackdrop');
+    
+    if (sidebar.classList.contains('-translate-x-full')) {
+        sidebar.classList.remove('-translate-x-full');
+        backdrop.classList.remove('hidden');
+    } else {
+        sidebar.classList.add('-translate-x-full');
+        backdrop.classList.add('hidden');
+    }
+}
 
-/* Counter Logic */
-
+/* (Counter and Chart JS stays exactly the same) */
 document.querySelectorAll('.counter').forEach(counter => {
-
     const update = () => {
-
         const target = +counter.getAttribute('data-target');
-
         const current = +counter.innerText.replace(/,/g,'');
-
         const increment = target / 80;
-
         if(current < target){
-
             counter.innerText = Math.ceil(current + increment).toLocaleString();
-
             requestAnimationFrame(update);
-
         } else {
-
             counter.innerText = target.toLocaleString();
-
         }
-
     };
-
     setTimeout(update, 500);
-
 });
-
-
-
-/* Interactive & Growing Chart Intelligence */
 
 const chartCtx = document.getElementById('incomeChart').getContext('2d');
-
 const grad = chartCtx.createLinearGradient(0, 0, 0, 400);
-
 grad.addColorStop(0, 'rgba(99, 102, 241, 0.4)');
-
 grad.addColorStop(1, 'rgba(99, 102, 241, 0)');
 
-
-
 const incomeChart = new Chart(chartCtx, {
-
     type: 'line',
-
     data: {
-
         labels: ['Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb'],
-
         datasets: [{
-
             label: 'Monthly Income',
-
-            data: [0, 0, 0, 0, 0, 0], // Start at zero for growth animation
-
+            data: [0, 0, 0, 0, 0, 0],
             borderColor: '#6366F1',
-
             backgroundColor: grad,
-
             fill: true,
-
             tension: 0.4,
-
             borderWidth: 5,
-
-            pointRadius: 0, // Hidden until hover
-
-            pointHoverRadius: 10, // Pops up on hover
-
+            pointRadius: 0,
+            pointHoverRadius: 10,
             pointBackgroundColor: '#6366F1',
-
             pointBorderColor: '#fff',
-
             pointBorderWidth: 4,
-
             pointHoverBorderWidth: 4,
-
         }]
-
     },
-
     options: {
-
         responsive: true,
-
         maintainAspectRatio: false,
-
-        // MAGIC SETTING: Shows value at mouse point without needing to hit the line exactly
-
-        interaction: {
-
-            mode: 'index',
-
-            intersect: false,
-
-        },
-
-        animation: {
-
-            duration: 2500,
-
-            easing: 'easeInOutQuart'
-
-        },
-
+        interaction: { mode: 'index', intersect: false },
+        animation: { duration: 2500, easing: 'easeInOutQuart' },
         plugins: {
-
             legend: { display: false },
-
-            tooltip: {
-
-                enabled: true,
-
-                backgroundColor: '#1e293b',
-
-                padding: 16,
-
-                titleFont: { size: 14, weight: '600' },
-
-                bodyFont: { size: 18, weight: 'bold' },
-
-                displayColors: false,
-
-                cornerRadius: 12,
-
-                callbacks: {
-
-                    label: (item) => ` $${item.parsed.y.toLocaleString()}`
-
-                }
-
-            }
-
+            tooltip: { enabled: true, backgroundColor: '#1e293b', padding: 16 }
         },
-
         scales: {
-
-            y: {
-
-                beginAtZero: true,
-
-                grid: { color: '#f1f5f9', borderDash: [8, 4] },
-
-                ticks: { color: '#94a3b8', font: { weight: '600' } }
-
-            },
-
-            x: {
-
-                grid: { display: false },
-
-                ticks: { color: '#94a3b8', font: { weight: '600' } }
-
-            }
-
+            y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
+            x: { grid: { display: false } }
         }
-
     }
-
 });
 
-
-
-/* Trigger the "Growth" Effect */
-
 setTimeout(() => {
-
     incomeChart.data.datasets[0].data = [12500, 18200, 15400, 21000, 29500, 27200];
-
     incomeChart.update();
-
 }, 800);
-
 </script>
 
-
-
 </body>
-
 </html>
