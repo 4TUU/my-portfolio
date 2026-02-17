@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedixPro | Financial Overview</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: reveal 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+        @keyframes reveal {
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 font-sans text-slate-900">
+
+<div class="flex h-screen overflow-hidden">
+
+    <aside class="w-72 bg-white border-r border-slate-200 hidden lg:flex flex-col">
+        <div class="p-8 text-2xl font-black text-indigo-600 tracking-tighter italic">
+            <a href="index.html">MedixPro <span class="text-slate-400 not-italic font-light">| Clinic</span></a>
+        </div>
+        <nav class="flex-1 px-6 space-y-2">
+            <a href=".." class="flex items-center gap-3 p-3 rounded-xl text-slate-500 hover:bg-slate-50 hover:text-indigo-600 transition-all cursor-pointer">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                Dashboard
+            </a>
+            <a href="../patients" class="flex items-center gap-3 p-3 rounded-xl text-slate-500 hover:bg-slate-50 hover:text-indigo-600 transition-all cursor-pointer">Patients</a>
+            <a href="../doctors" class="flex items-center gap-3 p-3 rounded-xl text-slate-500 hover:bg-slate-50 hover:text-indigo-600 transition-all cursor-pointer">Doctors</a>
+            <a href="../appointments" class="flex items-center gap-3 p-3 rounded-xl text-slate-500 hover:bg-slate-50 hover:text-indigo-600 transition-all cursor-pointer">Appointments</a>
+            
+            <a href="#" class="flex items-center gap-3 p-3 rounded-xl bg-indigo-50 text-indigo-600 font-bold transition-all shadow-sm shadow-indigo-100">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Finances
+            </a>
+        </nav>
+    </aside>
+
+    <div class="flex-1 flex flex-col overflow-y-auto">
+
+        <header class="bg-white/80 backdrop-blur-md sticky top-0 z-10 px-10 py-5 flex justify-between items-center border-b border-slate-100">
+            <div>
+                <h1 class="text-2xl font-extrabold text-slate-800 tracking-tight">Finances</h1>
+                <p class="text-sm text-slate-400 font-medium mt-1">Monitor hospital revenue and billing cycles.</p>
+            </div>
+            <div class="flex gap-4">
+                <button class="bg-white border border-slate-200 text-slate-600 px-5 py-2.5 rounded-xl font-bold text-sm hover:bg-slate-50 transition-all">Export CSV</button>
+                <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-xl font-bold shadow-lg shadow-indigo-200 transition-all text-sm">+ Create Invoice</button>
+            </div>
+        </header>
+
+        <main class="p-10 space-y-10">
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm reveal [animation-delay:0.1s]">
+                    <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">Monthly Revenue</p>
+                    <div class="flex items-end gap-2 mt-2">
+                        <h2 class="text-3xl font-black text-slate-800">$42,500</h2>
+                        <span class="text-emerald-500 text-xs font-bold mb-1">+12%</span>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm reveal [animation-delay:0.2s]">
+                    <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">Outstanding Invoices</p>
+                    <div class="flex items-end gap-2 mt-2">
+                        <h2 class="text-3xl font-black text-slate-800">$8,120</h2>
+                        <span class="text-rose-400 text-xs font-bold mb-1">14 Pending</span>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm reveal [animation-delay:0.3s]">
+                    <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">Avg. Consultation Fee</p>
+                    <div class="flex items-end gap-2 mt-2">
+                        <h2 class="text-3xl font-black text-slate-800">$125</h2>
+                        <span class="text-slate-400 text-xs font-bold mb-1">Standard</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                <div class="lg:col-span-2 bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm reveal [animation-delay:0.4s]">
+                    <h3 class="text-lg font-black text-slate-800 mb-6">Revenue Growth</h3>
+                    <div class="h-64">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-indigo-900 p-8 rounded-[2.5rem] text-white shadow-xl shadow-indigo-200 reveal [animation-delay:0.5s] flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold mb-1">Quick Stats</h3>
+                        <p class="text-indigo-300 text-xs">Payment Method Distribution</p>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-medium">Insurance</span>
+                            <span class="font-bold">65%</span>
+                        </div>
+                        <div class="w-full bg-white/10 rounded-full h-1.5">
+                            <div class="bg-indigo-400 h-1.5 rounded-full" style="width: 65%"></div>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-sm font-medium">Credit Card</span>
+                            <span class="font-bold">25%</span>
+                        </div>
+                        <div class="w-full bg-white/10 rounded-full h-1.5">
+                            <div class="bg-emerald-400 h-1.5 rounded-full" style="width: 25%"></div>
+                        </div>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-sm font-medium">Cash/Other</span>
+                            <span class="font-bold">10%</span>
+                        </div>
+                        <div class="w-full bg-white/10 rounded-full h-1.5">
+                            <div class="bg-amber-400 h-1.5 rounded-full" style="width: 10%"></div>
+                        </div>
+                    </div>
+                    <button class="mt-6 w-full py-3 bg-white/10 hover:bg-white/20 rounded-xl transition-all text-sm font-bold border border-white/20">View Detailed Audit</button>
+                </div>
+            </div>
+
+            <div class="bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-sm reveal [animation-delay:0.6s]">
+                <h3 class="text-xl font-black text-slate-800 mb-8">Recent Transactions</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead class="text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-50">
+                            <tr>
+                                <th class="pb-4">Patient / Invoice</th>
+                                <th class="pb-4">Date</th>
+                                <th class="pb-4">Amount</th>
+                                <th class="pb-4">Method</th>
+                                <th class="pb-4">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-50">
+                            <tr>
+                                <td class="py-5">
+                                    <p class="font-bold text-slate-700">Alice Johnson</p>
+                                    <p class="text-[10px] text-slate-400">#INV-9402</p>
+                                </td>
+                                <td class="py-5 text-sm text-slate-500">Feb 17, 2026</td>
+                                <td class="py-5 font-black text-slate-800">$240.00</td>
+                                <td class="py-5 text-sm font-medium">Insurance</td>
+                                <td class="py-5">
+                                    <span class="px-3 py-1 bg-emerald-50 text-emerald-600 text-[10px] font-black rounded-lg uppercase tracking-wider">Paid</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-5">
+                                    <p class="font-bold text-slate-700">Kevin Spacey</p>
+                                    <p class="text-[10px] text-slate-400">#INV-9405</p>
+                                </td>
+                                <td class="py-5 text-sm text-slate-500">Feb 16, 2026</td>
+                                <td class="py-5 font-black text-slate-800">$1,150.00</td>
+                                <td class="py-5 text-sm font-medium">Credit Card</td>
+                                <td class="py-5">
+                                    <span class="px-3 py-1 bg-amber-50 text-amber-600 text-[10px] font-black rounded-lg uppercase tracking-wider">Pending</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="py-5">
+                                    <p class="font-bold text-slate-700">Sarah Wilson</p>
+                                    <p class="text-[10px] text-slate-400">#INV-9398</p>
+                                </td>
+                                <td class="py-5 text-sm text-slate-500">Feb 15, 2026</td>
+                                <td class="py-5 font-black text-slate-800">$85.00</td>
+                                <td class="py-5 text-sm font-medium">Cash</td>
+                                <td class="py-5">
+                                    <span class="px-3 py-1 bg-rose-50 text-rose-600 text-[10px] font-black rounded-lg uppercase tracking-wider">Overdue</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</div>
+
+<script>
+/* Revenue Trend Chart */
+const ctx = document.getElementById('revenueChart').getContext('2d');
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [{
+            label: 'Revenue',
+            data: [32000, 38000, 35000, 42500, 41000, 48000],
+            borderColor: '#6366f1',
+            backgroundColor: 'rgba(99, 102, 241, 0.1)',
+            fill: true,
+            tension: 0.4,
+            borderWidth: 4,
+            pointRadius: 0,
+            pointHoverRadius: 6
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+            y: { 
+                grid: { color: '#f1f5f9' },
+                ticks: { color: '#94a3b8', font: { size: 10, weight: '700' } }
+            },
+            x: { grid: { display: false }, ticks: { color: '#94a3b8', font: { size: 10, weight: '700' } } }
+        }
+    }
+});
+</script>
+
+</body>
+</html>
